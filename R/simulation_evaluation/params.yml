@@ -1,0 +1,24 @@
+# params.yml
+
+- output_dir: "results/results_Mtot1pct_two_sided_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"] # The nucleotide bases
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]  # Number of tips in the tree
+  factor: 400 # Genetic diversity (6-8% for dengue) according to the tree size
+  n_trees: 100 # Simulation: Nb of trees under H0 and H1
+  target_nb_polymorphic_sites: 100 # Number of polymorphic sites
+  mutation_rate: 0.0001 # RNA virus, such as dengue
+  mutable_fraction: 1 # The fraction of the genome that is mutable
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null # The slope of the logistic curve
+  c: null # The threshold of the logistic curve
+  r: null # Adjustment parameter ensuring P(severe|m=0) = b or P(severe|m=Mimpact) = 1-b
+  noise_type: "two-sided" # Option: "no", "one-sided", "two-sided"
+  b: 0.2 # Noise
+  n_simu: 1000 # The number of simulations to perform distribution of severes phenotypes under H0
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.01 # Proportion of mutated sites in the alignment display mutations that influence the IS
