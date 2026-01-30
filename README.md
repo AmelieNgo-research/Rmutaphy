@@ -1,6 +1,6 @@
 # MutaPhy
 
-This repository contains the R implementation of **MutaPhy**, a phylogeny-based method developed during the PhD thesis of *Amélie Ngo*.
+This repository contains the R implementation of **MutaPhy**, a method for detecting shared mutations associated with a trait in a phylogenetic framework, developed during the PhD thesis of *Amélie Ngo*.
 
 MutaPhy is designed to study genotype–phenotype associations in a phylogenetic framework. The method detects clades significantly enriched for a binary phenotype and identifies candidate mutations that may underlie this association using permutation-based statistical tests and ancestral sequence reconstruction.
 
