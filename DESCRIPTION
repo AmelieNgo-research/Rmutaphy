@@ -1,11 +1,14 @@
 Package: Rmutaphy
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Detecting Shared Mutations Associated with a Trait in a Phylogenetic Framework
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Author: Amélie Ngo
+Maintainer: Amélie Ngo
+Description: Implements MutaPhy, a phylogeny-based method for detecting shared mutations
+    associated with a trait by identifying phenotype-enriched clades in a phylogenetic
+    tree. The method relies on permutation-based statistical tests and ancestral sequence
+    reconstruction, and was developed and evaluated using simulated data as well as
+    applied to dengue virus genomic and clinical datasets.
+License:
 Encoding: UTF-8
 LazyData: true
