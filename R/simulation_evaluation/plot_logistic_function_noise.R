@@ -67,6 +67,3 @@ ggplot(data, aes(x = m, y = probability, color = Mtot, linetype = noise)) +
   ) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "bottom")
-
-
-####

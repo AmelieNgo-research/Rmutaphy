@@ -27,7 +27,6 @@ for (i in seq_along(tree_outputs)) {
 }
 
 
-
 save_path <- here::here(sprintf("%s/saves/site_outputs_H0_H1_%dseqs.RData", # nolint
                                 params$output_dir, params$n_tips))
 if (!dir.exists(dirname(save_path))) {

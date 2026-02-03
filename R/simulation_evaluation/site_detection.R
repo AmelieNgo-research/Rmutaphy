@@ -294,64 +294,40 @@ site_all <- dplyr::bind_rows(
 
 site_all <- site_all %>% filter(!is.na(precision), !is.na(recall))
 
-ggplot(site_all, aes(x = factor(n), y = precision, fill = Noise)) +
-  geom_boxplot(alpha = 0.6, outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.2, alpha = 0.2, color = "black", size = 0.5) +
-  facet_wrap(~ Mtot, labeller = label_both) +
-  labs(title = "Precision by sample size",
-       x = "Sample size (n)",
-       y = "Precision",
-       fill = "Noise") +
-  theme_minimal()
-
-
-ggplot(site_all, aes(x = factor(n), y = recall, fill = Noise)) +
-  geom_boxplot(alpha = 0.6, outlier.shape = NA, width = 0.6) +
-  geom_jitter(width = 0.2, alpha = 0.2, color = "black", size = 0.5) +
-  facet_wrap(~ Mtot, labeller = label_both) +
-  labs(title = "Recall by sample size",
-       x = "Sample size (n)",
-       y = "Recall",
-       fill = "Noise") +
-  theme_minimal()
-
-
 library(RColorBrewer)
 cols <- brewer.pal(n = 3, name = "Set2")[1:2]
 
-ggplot(site_all, aes(x = factor(n), y = precision, fill = Noise)) +
-  geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 0.6, color = "black") +
-  geom_jitter(width = 0.2, alpha = 0.15, color = "black", size = 0.5) +
-  facet_wrap(~ Mtot, labeller = label_bquote("Mtot: "*.(Mtot)*"")) +
-  scale_fill_manual(values = cols, labels = c("No noise", "Noise")) +
-  labs(
-    x = "Sample size (n)",
-    y = "Precision",
-    fill = "Noise"
-  ) +
-  theme_bw(base_size = 13) +
-  theme(
-    plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
-    axis.title = element_text(face = "bold"),
-    legend.position = "top",
-    strip.background = element_rect(fill = "grey90", color = NA),
-    strip.text = element_text(face = "bold")
-  )
+# ggplot(site_all, aes(x = factor(n), y = precision, fill = Noise)) +
+#   geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 0.6, color = "black") +
+#   geom_jitter(width = 0.2, alpha = 0.15, color = "black", size = 0.5) +
+#   facet_wrap(~ Mtot, labeller = label_bquote("Mtot: "*.(Mtot)*"")) +
+#   scale_fill_manual(values = cols, labels = c("No noise", "Noise")) +
+#   labs(
+#     x = "Sample size (n)",
+#     y = "Precision",
+#     fill = "Noise"
+#   ) +
+#   theme_bw(base_size = 13) +
+#   theme(
+#     plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+#     axis.title = element_text(face = "bold"),
+#     legend.position = "top",
+#     strip.background = element_rect(fill = "grey90", color = NA),
+#     strip.text = element_text(face = "bold")
+#   )
 
-ggplot(site_all, aes(x = factor(n), y = recall, fill = Noise)) +
-  geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 0.6, color = "black") +
-  geom_jitter(width = 0.1, alpha = 0.15, color = "black", size = 0.5) +
-  facet_wrap(~ Mtot, labeller = label_bquote("Mtot: "*.(Mtot)*"%")) +
-  scale_fill_manual(values = cols, labels = c("No noise", "Noise")) +
-  labs( x = "Sample size (n)", y = "Recall", fill = "Noise" ) +
-  theme_bw(base_size = 13) +
-  theme( plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
-         axis.title = element_text(face = "bold"), legend.position = "top",
-         strip.background = element_rect(fill = "grey90", color = NA),
-         strip.text = element_text(face = "bold")
-  )
-
-
+# ggplot(site_all, aes(x = factor(n), y = recall, fill = Noise)) +
+#   geom_boxplot(alpha = 0.8, outlier.shape = NA, width = 0.6, color = "black") +
+#   geom_jitter(width = 0.1, alpha = 0.15, color = "black", size = 0.5) +
+#   facet_wrap(~ Mtot, labeller = label_bquote("Mtot: "*.(Mtot)*"%")) +
+#   scale_fill_manual(values = cols, labels = c("No noise", "Noise")) +
+#   labs( x = "Sample size (n)", y = "Recall", fill = "Noise" ) +
+#   theme_bw(base_size = 13) +
+#   theme( plot.title = element_text(hjust = 0.5, face = "bold", size = 16),
+#          axis.title = element_text(face = "bold"), legend.position = "top",
+#          strip.background = element_rect(fill = "grey90", color = NA),
+#          strip.text = element_text(face = "bold")
+#   )
 
 
 ggplot(site_all, aes(x = factor(n), y = precision, fill = Noise)) +
@@ -409,3 +385,4 @@ ggplot(site_all, aes(x = factor(n), y = recall, fill = Noise)) +
     strip.background = element_rect(fill = "grey90", color = NA),
     strip.text = element_text(face = "bold")
   )
+

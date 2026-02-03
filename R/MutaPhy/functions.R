@@ -198,7 +198,9 @@ mutaphy_test <- function(tree, trait1, trait0, n_simu = 1000, alpha = 0.05) {
   return(list(
     tree = list(
       min_raw_pvalue = min(pvals_perm$pvalues_table$pvalue, na.rm = TRUE),
-      min_corr_pvalue = min(corr_perm$corr_pvalue, na.rm = TRUE)
+      min_corr_pvalue = min(corr_perm$corr_pvalue, na.rm = TRUE),
+      mean_raw_pvalue  = mean(pvals_perm$pvalues_table$pvalue, na.rm = TRUE),
+      mean_corr_pvalue = mean(corr_perm$corr_pvalue, na.rm = TRUE)
     ),
     subtrees = list(
       hypergeometric = df_obs_pvalue_hyper,
