@@ -276,29 +276,29 @@ res_all_n300_Mtot50pct_k20_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_s
 
 ## H0
 ## Mtot1pct
-res_all_n20_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n50_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n100_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n300_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0") # fait
+res_all_n20_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0")
+res_all_n50_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0")
+res_all_n100_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0")
+res_all_n300_Mtot1pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0")
 ## Mtot10pct
-res_all_n20_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n50_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n100_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n300_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0") # fait
+res_all_n20_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0")
+res_all_n50_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0")
+res_all_n100_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0")
+res_all_n300_Mtot10pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0")
 ## Mtot50pct
-res_all_n20_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n50_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n100_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0") # fait
-res_all_n300_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0") # fait
+res_all_n20_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "20seqs", noise = "no_background_noise", H = "H0")
+res_all_n50_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "50seqs", noise = "no_background_noise", H = "H0")
+res_all_n100_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "100seqs", noise = "no_background_noise", H = "H0")
+res_all_n300_Mtot50pct_k20_H0_no_noise <- process_batch(Mtot_pct = "Mtot50pct", n_seqs = "300seqs", noise = "no_background_noise", H = "H0")
 
 
 # Noise
 ## H1
 ## Mtot1pct
-res_all_n20_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "20seqs", noise = "two_sided_background_noise", H = "H1") # fait
-res_all_n50_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "50seqs", noise = "two_sided_background_noise", H = "H1") # fait
-res_all_n100_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "100seqs", noise = "two_sided_background_noise", H = "H1") # fait
-res_all_n300_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "300seqs", noise = "two_sided_background_noise", H = "H1") # fait
+res_all_n20_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "20seqs", noise = "two_sided_background_noise", H = "H1")
+res_all_n50_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "50seqs", noise = "two_sided_background_noise", H = "H1")
+res_all_n100_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "100seqs", noise = "two_sided_background_noise", H = "H1")
+res_all_n300_Mtot1pct_k20_noise <- process_batch(Mtot_pct = "Mtot1pct", n_seqs = "300seqs", noise = "two_sided_background_noise", H = "H1")
 ## Mtot10pct
 res_all_n20_Mtot10pct_k20_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "20seqs", noise = "two_sided_background_noise", H = "H1")
 res_all_n50_Mtot10pct_k20_noise <- process_batch(Mtot_pct = "Mtot10pct", n_seqs = "50seqs", noise = "two_sided_background_noise", H = "H1")
