@@ -2942,7 +2942,7 @@ print(p)
 
 get_internal_descendants <- function(tree, node) {
   descendants <- phangorn::Descendants(tree, node, "all")
-  internal_descendants <- descendants[descendants > Ntip(tree)]
+  internal_descendants <- descendants[descendants > Ntip(tree)] # nolint
   return(internal_descendants)
 }
 
@@ -2988,10 +2988,10 @@ get_aucpr_h1 <- function(mtot_pct, n,
   load(here::here(base_path, paste0("tree_outputs_H0_H1_", n, "seqs.RData")))
   load(here::here(base_path, paste0("01-simulation_trees_H1_", n, "seqs.RData")))
 
-  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) {
-    tree <- list_tree[[i]]
+  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) { # nolint
+    tree <- list_tree[[i]] # nolint
     true_positives <- simu_subtrees[[i]]
-    df_pvals <- tree_outputs[[i]][["mutaphy_h1"]][["subtrees"]][["permutation"]]
+    df_pvals <- tree_outputs[[i]][["mutaphy_h1"]][["subtrees"]][["permutation"]] # nolint
 
     get_labels_and_pvals(tree, true_positives, df_pvals,
                          detection = detection,
@@ -3020,10 +3020,10 @@ get_aucpr_h0 <- function(mtot_pct, n,
   load(here::here(base_path, paste0("tree_outputs_H0_H1_", n, "seqs.RData")))
   load(here::here(base_path, paste0("01-simulation_trees_H0_", n, "seqs.RData")))
 
-  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) {
-    tree <- list_tree[[i]]
+  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) { # nolint
+    tree <- list_tree[[i]] # nolint
     true_positives <- numeric(0)
-    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][["permutation"]]
+    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][["permutation"]] # nolint
 
     get_labels_and_pvals(tree, true_positives, df_pvals,
                          detection = detection,
@@ -3158,9 +3158,9 @@ get_specificity_h0 <- function(mtot_pct, n,
   load(here::here(base_path, paste0("tree_outputs_H0_H1_", n, "seqs.RData")))
   load(here::here(base_path, paste0("01-simulation_trees_H0_", n, "seqs.RData")))
 
-  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) {
-    tree <- list_tree[[i]]
-    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][["permutation"]]
+  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) { # nolint
+    tree <- list_tree[[i]] # nolint
+    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][["permutation"]] # nolint
     get_labels_and_pvals(tree, numeric(0), df_pvals, detection = detection, pvalue_type = pvalue_type)
   }))
 

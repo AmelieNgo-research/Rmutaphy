@@ -17,12 +17,12 @@ get_aucpr_h1_testtype <- function(mtot_pct, n,
   load(here::here(base_path, paste0("tree_outputs_H0_H1_", n, "seqs.RData")))
   load(here::here(base_path, paste0("01-simulation_trees_H1_", n, "seqs.RData")))
 
-  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) {
-    tree <- list_tree[[i]]
+  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) { # nolint
+    tree <- list_tree[[i]] # nolint
     true_positives <- simu_subtrees[[i]]
-    df_pvals <- tree_outputs[[i]][["mutaphy_h1"]][["subtrees"]][[test_type]]
+    df_pvals <- tree_outputs[[i]][["mutaphy_h1"]][["subtrees"]][[test_type]] # nolint
 
-    get_labels_and_pvals(tree, true_positives, df_pvals,
+    get_labels_and_pvals(tree, true_positives, df_pvals, # nolint
                          detection = "hierarchical",
                          pvalue_type = pvalue_type)
   }))
@@ -117,10 +117,10 @@ get_specificity_h0_testtype <- function(mtot_pct, n,
   load(here::here(base_path, paste0("tree_outputs_H0_H1_", n, "seqs.RData")))
   load(here::here(base_path, paste0("01-simulation_trees_H0_", n, "seqs.RData")))
 
-  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) {
-    tree <- list_tree[[i]]
-    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][[test_type]]
-    get_labels_and_pvals(tree, numeric(0), df_pvals,
+  all_data <- do.call(rbind, lapply(seq_along(list_tree), function(i) { # nolint
+    tree <- list_tree[[i]] # nolint
+    df_pvals <- tree_outputs[[i]][["mutaphy_h0"]][["subtrees"]][[test_type]] # nolint
+    get_labels_and_pvals(tree, numeric(0), df_pvals, # nolint
                          detection = "hierarchical",
                          pvalue_type = pvalue_type)
   }))
