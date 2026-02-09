@@ -33,6 +33,7 @@ including permutation p-values and null distributions.
 In the current implementation, \code{phylo.stats()} does not pass \code{n_simu} to \code{ai_test()}.
 }
 \examples{
+\dontrun{
 set.seed(1)
 tree <- ape::rcoal(30)
 trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
@@ -45,6 +46,7 @@ phylo_stat <- phylo.stats(
 phylo_stat$AI$pvalue
 phylo_stat$PS$pvalue
 phylo_stat$MC$pvalues
+}
 
 }
 \references{

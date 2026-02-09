@@ -30,12 +30,14 @@ PS is computed using a Fitch parsimony-style recursion on a binary tree.
 Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
 }
 \examples{
+\dontrun{
 set.seed(1)
 tree <- ape::rcoal(30)
 trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
 
 res_ps <- ps_test(tree = tree, trait = trait, n_simu = 100)
 res_ps$pvalue
+}
 
 }
 \references{

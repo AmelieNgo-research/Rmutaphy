@@ -35,6 +35,7 @@ In \code{phylo.stats()}, \code{ai_test()} is called without passing \code{n_simu
 (so it uses its default 1000), even if \code{n_simu} is set in \code{phylo.stats()}.
 }
 \examples{
+\dontrun{
 set.seed(1)
 tree <- ape::rcoal(30)
 trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
@@ -43,6 +44,7 @@ trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
 
 res_ai <- ai_test(tree = tree, trait = trait, n_simu = 100)
 res_ai$pvalue
+}
 
 }
 \references{

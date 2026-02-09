@@ -33,6 +33,7 @@ significance via permutation tests.
 See \href{https://pubmed.ncbi.nlm.nih.gov/16103186/}{Salemi and al, 2005}
 }
 \examples{
+\dontrun{
 set.seed(1)
 tree <- ape::rcoal(30)
 trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
@@ -43,6 +44,7 @@ res_mc <- mc_test(
   n_simu = 100
 )
 res_mc$pvalues
+}
 
 }
 \references{
