@@ -74,6 +74,15 @@ calculate_pvalue_for_PS <- function(ps_obs, res, n_simu) {
 #' Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
 #'
 #' @seealso \code{\link{calculate_PS}}
+#'
+#' @examples
+#' set.seed(1)
+#' tree <- ape::rcoal(30)
+#' trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+#'
+#' res_ps <- ps_test(tree = tree, trait = trait, n_simu = 100)
+#' res_ps$pvalue
+#'
 #' @references
 #' Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.
 #' @export
@@ -197,6 +206,16 @@ calculate_pvalue_for_AI <- function(ai_obs, res, n_simu) {
 #' @details AI is computed by summing node-wise contributions that depend on
 #' the majority state frequency among descendants and the number of descendant tips.
 #' Lower AI indicates stronger clustering. See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+#'
+#' @examples
+#' set.seed(1)
+#' tree <- ape::rcoal(30)
+#' trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+#' # trait must be ordered as tree$tip.label:
+#' # here it's already length Ntip(tree) and will be interpreted in that order.
+#'
+#' res_ai <- ai_test(tree = tree, trait = trait, n_simu = 100)
+#' res_ai$pvalue
 #'
 #' @references
 #' Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
@@ -339,6 +358,18 @@ calculate_pvalue_for_MC <- function(mc_obs, res, n_simu) {
 #'
 #' @details See \href{https://pubmed.ncbi.nlm.nih.gov/16103186/}{Salemi and al, 2005}
 #'
+#' @examples
+#' set.seed(1)
+#' tree <- ape::rcoal(30)
+#' trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+#'
+#' res_mc <- mc_test(
+#'   tree = tree, trait = trait,
+#'   trait0 = "non severe", trait1 = "severe",
+#'   n_simu = 100
+#' )
+#' res_mc$pvalues
+#'
 #' @references
 #' Salemi and al (2005). Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS.
 #'
@@ -415,6 +446,20 @@ calculate_MC <- function(tree, trait, trait0, trait1) {
 #'
 #' @details \code{AI} is computed via \code{\link{ai_test}} (which has its own default \code{n_simu = 1000}).
 #' In the current implementation, \code{phylo.stats()} does not pass \code{n_simu} to \code{ai_test()}.
+#'
+#' @examples
+#' set.seed(1)
+#' tree <- ape::rcoal(30)
+#' trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+#'
+#' phylo_stat <- phylo.stats(
+#'   tree = tree, trait = trait,
+#'   trait0 = "non severe", trait1 = "severe",
+#'   n_simu = 100
+#' )
+#' phylo_stat$AI$pvalue
+#' phylo_stat$PS$pvalue
+#' phylo_stat$MC$pvalues
 #'
 #' @references
 #' PS: Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.

@@ -32,6 +32,19 @@ significance via permutation tests.
 \details{
 See \href{https://pubmed.ncbi.nlm.nih.gov/16103186/}{Salemi and al, 2005}
 }
+\examples{
+set.seed(1)
+tree <- ape::rcoal(30)
+trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+
+res_mc <- mc_test(
+  tree = tree, trait = trait,
+  trait0 = "non severe", trait1 = "severe",
+  n_simu = 100
+)
+res_mc$pvalues
+
+}
 \references{
 Salemi and al (2005). Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS.
 }

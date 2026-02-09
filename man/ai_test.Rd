@@ -34,6 +34,17 @@ Lower AI indicates stronger clustering. See \href{https://journals.asm.org/doi/p
 In \code{phylo.stats()}, \code{ai_test()} is called without passing \code{n_simu}
 (so it uses its default 1000), even if \code{n_simu} is set in \code{phylo.stats()}.
 }
+\examples{
+set.seed(1)
+tree <- ape::rcoal(30)
+trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+# trait must be ordered as tree$tip.label:
+# here it's already length Ntip(tree) and will be interpreted in that order.
+
+res_ai <- ai_test(tree = tree, trait = trait, n_simu = 100)
+res_ai$pvalue
+
+}
 \references{
 Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
 }

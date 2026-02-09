@@ -32,6 +32,21 @@ including permutation p-values and null distributions.
 \code{AI} is computed via \code{\link{ai_test}} (which has its own default \code{n_simu = 1000}).
 In the current implementation, \code{phylo.stats()} does not pass \code{n_simu} to \code{ai_test()}.
 }
+\examples{
+set.seed(1)
+tree <- ape::rcoal(30)
+trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+
+phylo_stat <- phylo.stats(
+  tree = tree, trait = trait,
+  trait0 = "non severe", trait1 = "severe",
+  n_simu = 100
+)
+phylo_stat$AI$pvalue
+phylo_stat$PS$pvalue
+phylo_stat$MC$pvalues
+
+}
 \references{
 PS: Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.
 AI: Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
