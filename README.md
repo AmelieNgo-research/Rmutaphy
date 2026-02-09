@@ -36,6 +36,31 @@ MutaPhy expects a phylogenetic tree (`phylo`) whose tip labels encode a binary p
 
 It returns subtree-level p-values (hypergeometric and permutation-based), a tree-level summary (minimum p-values), and additional objects used for p-value correction.
 
+### Example
+
+```r
+source(here::here("R/functions.R"))
+set.seed(1)
+tree <- ape::rcoal(30)
+id_leaf <- tree$tip.label
+trait <- c("severe", "non severe", "non severe", "severe", "severe",
+           "non severe", "non severe", "severe", "non severe", "non severe",
+           "non severe", "severe", "non severe", "non severe", "non severe",
+           "non severe", "non severe", "non severe", "non severe", "severe",
+           "severe", "severe", "severe", "severe", "severe", "severe",
+           "severe", "severe", "severe", "severe")
+tree$tip.label <- trait
+
+res <- mutaphy_test(
+  tree   = tree,
+  trait1 = "severe",
+  trait0 = "non severe",
+  n_simu = 1000,
+  alpha  = 0.05
+)
+node <- res$positifs$permutation_nodes_corrected # 35
+```
+
 ## Candidate sites (`get_site_candidates()`)
 
 After running `mutaphy_test()`, candidate mutations can be explored on the branch leading to a significant clade using `get_site_candidates()`.
@@ -49,6 +74,36 @@ After running `mutaphy_test()`, candidate mutations can be explored on the branc
 
 -- `sequences`: a named list of aligned sequences, where each element is a character vector of nucleotides (A/C/G/T) and the list names correspond exactly to the tree tip labels.
 
+### Example
+
+```r
+get_tips_descendants <- function(tree, node) {
+  descendants <- phangorn::Descendants(tree, node, "all")
+  internal_descendants <- descendants[descendants <= ape::Ntip(tree)]
+  return(internal_descendants)
+}
+
+# Building of sequences
+L <- 10
+ref_seq <- sample(c("A","C","G","T"), L, replace = TRUE)
+sequences <- replicate(ape::Ntip(tree), ref_seq, simplify = FALSE)
+names(sequences) <- tree$tip.label
+desc_tips <- get_tips_descendants(tree, node)
+mut_pos <- 4 # Introducing variation at site 4
+for (i in desc_tips) {
+  sequences[[i]][mut_pos] <- "G"
+}
+
+tree$tip.label <- paste0("seq_", id_leaf)
+
+sites <- get_site_candidates(
+  nodes     = node,
+  tree      = tree,
+  sequences = sequences,
+  verbose   = TRUE
+)
+sites$candidates_by_node # Node 35, detected mutation at site 4
+```
 
 Example scripts are provided in the `analysis/Dengue_data/` directory, including a dengue virus use case.
 
@@ -67,6 +122,7 @@ a nested list with AI/PS/MC results.
 ### Example
 
 ```r
+source(here::here("R/functions_other_statistics.R"))
 set.seed(1)
 tree <- ape::rcoal(30)
 trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
