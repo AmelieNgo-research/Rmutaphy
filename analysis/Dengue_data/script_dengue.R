@@ -108,7 +108,7 @@ dim(seq_mat)
 
 View(seq_mat[, 1:40])
 
-variable_sites <- which(sapply(1:length(sequences[[1]]), is_variable, seqs = sequences))
+variable_sites <- which(sapply(1:length(sequences[[1]]), is_variable, seqs = sequences)) # nolint
 site <- sapply(sequences, `[`, 2311)
 names(site) <- names(sequences)
 res <- ace(site, tree_300, type = "discrete", model = "ER")
