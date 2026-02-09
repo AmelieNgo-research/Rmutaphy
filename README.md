@@ -52,3 +52,40 @@ After running `mutaphy_test()`, candidate mutations can be explored on the branc
 
 Example scripts are provided in the `analysis/Dengue_data/` directory, including a dengue virus use case.
 
+## Additional phylogenetic association statistics (AI / PS / MC)
+
+In addition to `mutaphy_test()`, the package provides three classic phylogenetic association
+statistics computed with permutation tests:
+
+- `ai_test(tree, trait, n_simu)` : Association Index (AI: Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System. `https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001`)
+- `ps_test(tree, trait, n_simu)` : Parsimony Score (PS: Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology. `https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf`)
+- `mc_test(tree, trait, trait0, trait1, n_simu)` : Monophyletic Clade size (MC: Salemi and al (2005). Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS. `https://pubmed.ncbi.nlm.nih.gov/16103186/`)
+
+A convenience wrapper, `phylo.stats()`, computes the three statistics at once and returns
+a nested list with AI/PS/MC results.
+
+### Example
+
+```r
+set.seed(1)
+tree <- ape::rcoal(30)
+trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
+
+res_ai <- ai_test(tree = tree, trait = trait, n_simu = 1000)
+res_ai$pvalue
+
+res_ps <- ps_test(tree = tree, trait = trait, n_simu = 1000)
+res_ps$pvalue
+
+res_mc <- mc_test(tree = tree, trait = trait,
+                  trait0 = "non severe", trait1 = "severe",
+                  n_simu = 1000)
+res_mc$pvalues
+
+phylo_stat <- phylo.stats(tree = tree, trait = trait,
+                          trait0 = "non severe", trait1 = "severe",
+                          n_simu = 1000)
+phylo_stat$AI$pvalue
+phylo_stat$PS$pvalue
+phylo_stat$MC$pvalues
+```
