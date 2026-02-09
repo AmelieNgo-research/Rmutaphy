@@ -1,0 +1,175 @@
+# params.yml
+#
+# This YAML file defines the simulation scenarios used in the RMutaPhy workflow.
+# Each top-level item (starting with "- output_dir:") corresponds to ONE scenario
+# (one independent run of the pipeline). The main script
+# analysis/simulation_evaluation/main_script.R iterates over all scenarios listed here.
+#
+# The field "output_dir" must be unique for each scenario. All outputs produced
+# by the simulation and evaluation scripts are written to this directory
+# (under analysis/results/).
+#
+# In this project, we benchmark 6 scenarios corresponding to:
+#   - Mtot_prop in {0.01, 0.10, 0.50}
+#   - noise_type in {"no", "two-sided"}
+#
+# To reproduce all results, simply run main_script.R once. It will loop over
+# the 6 scenarios below and over the values listed in n_tips.
+
+# Parameter definitions:
+#   nucleotide: Allowed nucleotide states used to generate sequences.
+#   trait1 / trait0: Names of the two phenotype states (binary trait).
+#   n_tips: List of sample sizes (number of leaves) evaluated in each scenario.
+#   factor: Controls genetic diversity 6-8% for RNA virus.
+#   n_trees: Number of replicate trees simulated under H0 and H1.
+#   target_nb_polymorphic_sites: Target number of polymorphic sites to simulate.
+#   mutation_rate: Per-site mutation rate used in sequence evolution simulation.
+#   mutable_fraction: Fraction of the genome considered mutable (0-1).
+#   null_hypothesis / alternative_hypothesis: Labels used to simulate H0/H1 datasets.
+#   score_h0 / score_h1: Binary encoding for phenotype under H0/H1 simulations.
+#   k, c, r: Logistic-curve parameters controlling P(trait1 | number of causal mutations).
+#            If set to null, they are derived automatically from Mtot_prop and b.
+#   noise_type: Background noise model ("no" or "two-sided") remark: two-sided = noise.
+#   b: Noise level (used when noise_type != "no").
+#   n_simu: Number of permutations used by mutaphy_test (null distribution).
+#   alpha: Significance thresholds used in evaluation.
+#   Mtot_prop: Proportion of sites carrying phenotype-associated mutations (IS).
+
+- output_dir: "analysis/results/results_Mtot1pct_no_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "no"
+  b: 0.01
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.01
+
+- output_dir: "analysis/results/results_Mtot10pct_no_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "no"
+  b: 0.01
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.1
+
+- output_dir: "analysis/results/results_Mtot50pct_no_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "no"
+  b: 0.01
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.5
+
+
+- output_dir: "analysis/results/results_Mtot1pct_two_sided_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "two-sided"
+  b: 0.2
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.01
+
+- output_dir: "analysis/results/results_Mtot10pct_two_sided_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "two-sided"
+  b: 0.2
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.1
+
+- output_dir: "analysis/results/results_Mtot50pct_two_sided_background_noise_nsimu1000"
+  nucleotide: ["A", "C", "G", "T"]
+  trait1: "severe"
+  trait0: "non severe"
+  n_tips: [20,50,100,300]
+  factor: 400
+  n_trees: 100
+  target_nb_polymorphic_sites: 100
+  mutation_rate: 0.0001
+  mutable_fraction: 1
+  null_hypothesis: "H0"
+  alternative_hypothesis: "H1"
+  score_h0: 0
+  score_h1: 1
+  k: null
+  c: null
+  r: null
+  noise_type: "two-sided"
+  b: 0.2
+  n_simu: 1000
+  alpha: [0.05, 0.1]
+  Mtot_prop: 0.5

@@ -48,5 +48,5 @@ After running `mutaphy_test()`, candidate mutations can be explored on the branc
 -- `sequences`: a named list of aligned sequences, where each element is a character vector of nucleotides (A/C/G/T) and the list names correspond exactly to the tree tip labels.
 
 
-Example scripts are provided in the `Dengue_data/` directory, including a dengue virus use case.
+Example scripts are provided in the `analysis/Dengue_data/` directory, including a dengue virus use case.
 
