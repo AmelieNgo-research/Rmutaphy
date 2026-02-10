@@ -26,7 +26,7 @@ Computes a one-sided permutation p-value for PS as:
 where smaller PS indicates stronger clustering (more phylogenetic signal).
 }
 \details{
-See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 }
 \references{
 Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.

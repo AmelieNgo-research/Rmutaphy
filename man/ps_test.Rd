@@ -27,7 +27,7 @@ a permutation test.
 }
 \details{
 PS is computed using a Fitch parsimony-style recursion on a binary tree.
-Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 }
 \examples{
 \dontrun{

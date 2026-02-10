@@ -13,7 +13,7 @@
 #' }
 #'
 #' @details The permutation test breaks any phylogenetic association by randomly
-#' shuffling trait labels across tips. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+#' shuffling trait labels across tips. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 #'
 #' @seealso \code{\link{calculate_PS}}, \code{\link{ps_test}}
 #' @references
@@ -44,7 +44,7 @@ random_PS_scores <- function(tree, trait, n_simu) {
 #'   \item{pvalue}{Permutation p-value.}
 #' }
 #'
-#' @details See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+#' @details See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 #' @references
 #' Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.
 #' @export
@@ -71,7 +71,7 @@ calculate_pvalue_for_PS <- function(ps_obs, res, n_simu) {
 #' }
 #'
 #' @details PS is computed using a Fitch parsimony-style recursion on a binary tree.
-#' Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+#' Lower PS indicates fewer changes and thus stronger clustering of identical states. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 #'
 #' @seealso \code{\link{calculate_PS}}
 #'
@@ -108,7 +108,7 @@ ps_test <- function(tree, trait, n_simu = 1000) {
 #' @return Numeric scalar, the PS value.
 #'
 #' @details This implementation assumes each internal node has exactly two children.
-#' If your tree is not strictly bifurcating, results may be incorrect. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+#' If your tree is not strictly bifurcating, results may be incorrect. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 #'
 #' @references
 #' Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.
@@ -150,7 +150,7 @@ calculate_PS <- function(tree, trait) {
 #' \describe{
 #'   \item{ai_scores}{Numeric vector of length \code{n_simu} containing permuted AI values.}
 #' }
-#' @details See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+#' @details See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 #'
 #' @references
 #' Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
@@ -177,7 +177,7 @@ random_AI_scores <- function(tree, trait, n_simu = 1000) {
 #' @param n_simu Number of permutations used (must match \code{length(res$ai_scores)}).
 #'
 #' @return A one-row \code{data.frame} with columns \code{statistic} and \code{pvalue}.
-#' @details See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+#' @details See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 #'
 #' @references
 #' Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
@@ -207,7 +207,7 @@ calculate_pvalue_for_AI <- function(ai_obs, res, n_simu) {
 #'
 #' @details AI is computed by summing node-wise contributions that depend on
 #' the majority state frequency among descendants and the number of descendant tips.
-#' Lower AI indicates stronger clustering. See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+#' Lower AI indicates stronger clustering. See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 #'
 #' @examples
 #' \dontrun{
@@ -250,7 +250,7 @@ ai_test <- function(tree, trait, n_simu = 1000) {
 #' @details For each internal node, the function retrieves descendant tips
 #' using \code{\link{get_tips_descendants}} and adds a node-wise contribution
 #' based on the maximum trait frequency among descendants and the descendant clade size.
-#' See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+#' See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 #'
 #' @references
 #' Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.

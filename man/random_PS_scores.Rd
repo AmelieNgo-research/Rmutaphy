@@ -25,7 +25,7 @@ trait labels on the tips \code{n_simu} times and recomputing PS each time.
 }
 \details{
 The permutation test breaks any phylogenetic association by randomly
-shuffling trait labels across tips. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+shuffling trait labels across tips. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 }
 \references{
 Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.

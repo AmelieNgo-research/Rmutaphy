@@ -1,3 +1,9 @@
-^.*\.Rproj$
-^\.Rproj\.user$
 ^analysis$
+^Rmutaphy\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^\.gitattributes$
+^\.DS_Store$
+^\.Rhistory$
+^Rmutaphy_doc\.pdf$

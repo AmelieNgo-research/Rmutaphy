@@ -21,7 +21,7 @@ each union corresponds to one inferred change.
 }
 \details{
 This implementation assumes each internal node has exactly two children.
-If your tree is not strictly bifurcating, results may be incorrect. See \href{https://academic.oup.com/sysbio/article-pdf/20/4/406/4697394/20-4-406.pdf}{Fitch 1971}.
+If your tree is not strictly bifurcating, results may be incorrect. See \href{https://academic.oup.com/sysbio/article-abstract/20/4/406/1673276}{Fitch 1971}.
 }
 \references{
 Fitch, W. M. (1971). Toward defining the course of evolution: minimum change for a specific tree topology.
