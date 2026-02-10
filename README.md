@@ -123,9 +123,6 @@ a nested list with AI/PS/MC results.
 
 ```r
 source(here::here("R/functions_other_statistics.R"))
-set.seed(1)
-tree <- ape::rcoal(30)
-trait <- sample(c(rep("severe", 15), rep("non severe", 15)))
 
 res_ai <- ai_test(tree = tree, trait = trait, n_simu = 1000)
 res_ai$pvalue
