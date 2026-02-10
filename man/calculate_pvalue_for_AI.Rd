@@ -22,7 +22,7 @@ Computes a one-sided permutation p-value for AI as:
 where smaller AI indicates stronger clustering.
 }
 \details{
-See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 }
 \references{
 Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.

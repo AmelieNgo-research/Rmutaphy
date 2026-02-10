@@ -28,7 +28,7 @@ a permutation test.
 \details{
 AI is computed by summing node-wise contributions that depend on
 the majority state frequency among descendants and the number of descendant tips.
-Lower AI indicates stronger clustering. See \href{https://journals.asm.org/doi/pdf/10.1128/jvi.75.23.11686-11699.2001}{Wang and al, 2001}.
+Lower AI indicates stronger clustering. See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 }
 \note{
 In \code{phylo.stats()}, \code{ai_test()} is called without passing \code{n_simu}
