@@ -216,59 +216,109 @@ calculate_corr_pvalues_perm <- function(corrected_matrix) {
 #' @importFrom stats phyper na.omit setNames
 #' @export
 mutaphy_test <- function(tree, trait1, trait0, n_simu = 1000, alpha = 0.05, verbose = FALSE) {
+
   if (isTRUE(verbose)) {
     message(
       "Running MutaPhy: testing whether phenotype '", trait1,
       "' is over-represented relative to '", trait0, "'."
     )
   }
+
+  # ---- observed subtree stats ----
   df_obs <- table_info_subtrees_obs(tree, trait1)
-  # --- HYPERGEOMETRIC ---
+
+  # ---- hypergeometric p-values ----
   pvals_hyper <- calculate_pvalues_hypergeom(df_obs)
   df_obs_pvalue_hyper <- merge(df_obs, pvals_hyper[, c("node", "pvalue")], by = "node")
-  # --- PERMUTATIONS ---
+
+  # ---- permutation p-values (raw) ----
   res_perm   <- random_trees_labels(tree, n_simu, trait1)
   pvals_perm <- calculate_pvalues_perm(res_perm, df_obs, n_simu)
+
   df_obs_pvalue_perm <- merge(df_obs, pvals_perm$pvalues_table, by = "node", all.x = TRUE)
+
+  df_obs_pvalue_perm$node <- as.character(df_obs_pvalue_perm$node)
+  df_obs_pvalue_perm$pvalue <- as.numeric(df_obs_pvalue_perm$pvalue)
+
+  # ---- determine significant nodes and enforce TOP-FIRST order ----
+  sig_df <- df_obs_pvalue_perm[!is.na(df_obs_pvalue_perm$pvalue) & df_obs_pvalue_perm$pvalue < alpha, ]
+  sig_df <- sig_df[order(sig_df$pvalue, -sig_df$prop_trait1, -sig_df$n), ]
+  sig_nodes <- as.character(sig_df$node)
+
+  # ---- hierarchical correction on permutation matrix ----
+  tree_structure <- get_tree_structure(tree)
+
+  corrected_matrix <- pvals_perm[["binary_matrix"]]
+
+  selected_tops <- character(0)  # tops chosen (PROTECTED)
+  neutralized   <- character(0)  # nodes neutralized (ignored as future tops)
+
+  cols_all <- colnames(corrected_matrix)
+
+  for (top in sig_nodes) {
+
+    # already neutralized by a previous top -> cannot become top
+    if (top %in% neutralized) next
+    # safety
+    if (top %in% selected_tops) next
+
+    # select and protect this top
+    selected_tops <- c(selected_tops, top)
+
+    # neighbors to neutralize: descendants + ancestors that are significant
+    neigh <- c(tree_structure[[top]]$descendants, tree_structure[[top]]$ancestors)
+    to_neutralize <- intersect(neigh, sig_nodes)
+
+    # never neutralize already-selected tops, and never neutralize the current top itself
+    to_neutralize <- setdiff(to_neutralize, selected_tops)
+    to_neutralize <- setdiff(to_neutralize, top)
+
+    # keep only columns actually present
+    to_neutralize <- intersect(to_neutralize, cols_all)
+
+    if (length(to_neutralize)) {
+      z <- corrected_matrix[, to_neutralize, drop = FALSE] == 0L
+      corrected_matrix[, to_neutralize][z] <- 1L
+      neutralized <- unique(c(neutralized, to_neutralize))
+    }
+  }
+
+  # corrected p-values from corrected matrix
+  corr_perm <- calculate_corr_pvalues_perm(corrected_matrix)
+  corr_perm$node <- as.character(corr_perm$node)
+
+  df_obs_pvalue_perm <- merge(df_obs_pvalue_perm, corr_perm, by = "node", all.x = TRUE)
+
+  # order output (raw pvalue then enrichment then size)
   df_obs_pvalue_perm <- df_obs_pvalue_perm[order(df_obs_pvalue_perm$pvalue,
                                                  -df_obs_pvalue_perm$prop_trait1,
-                                                 -df_obs_pvalue_perm$n
-  ),]
-  tree_structure   <- get_tree_structure(tree)
-  vect_pos_nodes <- as.character(df_obs_pvalue_perm[df_obs_pvalue_perm$pvalue < alpha, ]$node)
-  binary_matrix    <- pvals_perm[["binary_matrix"]]
-  corrected_matrix <- binary_matrix
-  cols_all         <- colnames(corrected_matrix)
-  treated <- character(0)
-  for (node in vect_pos_nodes) {
-    if (node %in% treated) next
-    cols_to_update <- unique(intersect(tree_structure[[node]], vect_pos_nodes))
-    cols_to_update <- intersect(cols_to_update, cols_all)
-    cols_to_update <- setdiff(cols_to_update, node)
-    if (length(cols_to_update)) {
-      z <- corrected_matrix[, cols_to_update, drop = FALSE] == 0L
-      corrected_matrix[, cols_to_update][z] <- 1L
-    }
-    treated <- unique(c(treated, node, cols_to_update))
-  }
-  corr_perm <- calculate_corr_pvalues_perm(corrected_matrix)
-  df_obs_pvalue_perm <- merge(df_obs_pvalue_perm, corr_perm, by = "node", all.x = TRUE)
-  pos_nodes_raw <- df_obs_pvalue_perm$node[df_obs_pvalue_perm$pvalue < alpha]
+                                                 -df_obs_pvalue_perm$n), ]
+
+  # ---- positives (raw + corrected) ----
+  pos_nodes_raw <- df_obs_pvalue_perm$node[!is.na(df_obs_pvalue_perm$pvalue) &
+                                             df_obs_pvalue_perm$pvalue < alpha]
+
+  # “corrected positives” using alpha_star rule
   m_corr <- sum(df_obs_pvalue_perm$corr_pvalue < alpha, na.rm = TRUE)
   if (m_corr > 0) {
     alpha_star <- alpha / m_corr
     pos_nodes_corr <- df_obs_pvalue_perm$node[df_obs_pvalue_perm$corr_pvalue < alpha_star]
   } else {
     alpha_star <- NA_real_
-    pos_nodes_corr <- numeric(0)
+    pos_nodes_corr <- character(0)
   }
-  return(list(
-    tree = list(
-      min_raw_pvalue = min(pvals_perm$pvalues_table$pvalue, na.rm = TRUE),
-      min_corr_pvalue = min(corr_perm$corr_pvalue, na.rm = TRUE),
-      mean_raw_pvalue  = mean(pvals_perm$pvalues_table$pvalue, na.rm = TRUE),
-      mean_corr_pvalue = mean(corr_perm$corr_pvalue, na.rm = TRUE)
-    ),
+
+  # ---- tree summary ----
+  out_tree <- list(
+    min_raw_pvalue  = min(df_obs_pvalue_perm$pvalue, na.rm = TRUE),
+    min_corr_pvalue = min(df_obs_pvalue_perm$corr_pvalue, na.rm = TRUE),
+    mean_raw_pvalue  = mean(df_obs_pvalue_perm$pvalue, na.rm = TRUE),
+    mean_corr_pvalue = mean(df_obs_pvalue_perm$corr_pvalue, na.rm = TRUE),
+    top_nodes_order = selected_tops  # <- this is the actual “top selection”
+  )
+
+  list(
+    tree = out_tree,
     subtrees = list(
       hypergeometric = df_obs_pvalue_hyper,
       permutation    = df_obs_pvalue_perm
@@ -278,13 +328,14 @@ mutaphy_test <- function(tree, trait1, trait0, n_simu = 1000, alpha = 0.05, verb
       corrected = corrected_matrix
     ),
     positifs = list(
-      permutation_nodes            = pos_nodes_raw,
-      permutation_nodes_corrected  = pos_nodes_corr,
-      alpha                        = alpha,
-      alpha_star                   = alpha_star,
-      m_corr                       = m_corr
+      permutation_nodes           = pos_nodes_raw,
+      permutation_nodes_corrected = pos_nodes_corr,
+      alpha      = alpha,
+      alpha_star = alpha_star,
+      m_corr     = m_corr,
+      selected_tops = selected_tops
     )
-  ))
+  )
 }
 
 #' Build the node neighborhood structure used for hierarchical correction (internal)
@@ -295,14 +346,14 @@ mutaphy_test <- function(tree, trait1, trait0, n_simu = 1000, alpha = 0.05, verb
 #' @export
 get_tree_structure <- function(tree) {
   internal_nodes <- unique(tree$edge[, 1])
-  structure_list <- list()
+  structure_list <- vector("list", length(internal_nodes))
+  names(structure_list) <- as.character(internal_nodes)
+
   for (node in internal_nodes) {
-    children <- phangorn::Descendants(tree, node, type = "all")
-    ancestor <- phangorn::Ancestors(tree, node, type = "parent")
-    vals <- c(as.character(children), as.character(ancestor))
-    if (length(vals) > 0) {
-      structure_list[[as.character(node)]] <- vals
-    }
+    structure_list[[as.character(node)]] <- list(
+      descendants = as.character(phangorn::Descendants(tree, node, type = "all")),
+      ancestors   = as.character(phangorn::Ancestors(tree, node, type = "all"))
+    )
   }
   structure_list
 }
