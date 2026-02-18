@@ -142,3 +142,8 @@ phylo_stat$AI$pvalue
 phylo_stat$PS$pvalue
 phylo_stat$MC$pvalues
 ```
+
+# References
+
+Amélie Ngo, Stéphane Guindon and Vincent Pedergnana (2026)
+
