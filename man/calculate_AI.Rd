@@ -20,7 +20,7 @@ summarizing trait clustering among descendant tips.
 }
 \details{
 For each internal node, the function retrieves descendant tips
-using \code{\link{get_tips_descendants}} and adds a node-wise contribution
+using \code{\link{get_descendant_tips}} and adds a node-wise contribution
 based on the maximum trait frequency among descendants and the descendant clade size.
 See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 }
@@ -28,5 +28,5 @@ See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}
 Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
 }
 \seealso{
-\code{\link{get_tips_descendants}}, \code{\link{ai_test}}
+\code{\link{get_descendant_tips}}, \code{\link{ai_test}}
 }

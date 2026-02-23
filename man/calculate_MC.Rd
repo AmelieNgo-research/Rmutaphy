@@ -31,5 +31,5 @@ See \href{https://pubmed.ncbi.nlm.nih.gov/16103186/}{Salemi and al, 2005}.
 Salemi and al (2005). Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS.
 }
 \seealso{
-\code{\link{get_tips_descendants}}, \code{\link{mc_test}}
+\code{\link{get_descendant_tips}}, \code{\link{mc_test}}
 }

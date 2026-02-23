@@ -248,21 +248,21 @@ ai_test <- function(tree, trait, n_simu = 1000) {
 #' @return Numeric scalar, the AI value.
 #'
 #' @details For each internal node, the function retrieves descendant tips
-#' using \code{\link{get_tips_descendants}} and adds a node-wise contribution
+#' using \code{\link{get_descendant_tips}} and adds a node-wise contribution
 #' based on the maximum trait frequency among descendants and the descendant clade size.
 #' See \href{https://doi.org/10.1128/JVI.75.23.11686-11699.2001}{Wang and al, 2001}.
 #'
 #' @references
 #' Wang and al (2001). Identification of Shared Populations of Human Immunodeficiency Virus Type 1 Infecting Microglia and Tissue Macrophages outside the Central Nervous System.
 #'
-#' @seealso \code{\link{get_tips_descendants}}, \code{\link{ai_test}}
+#' @seealso \code{\link{get_descendant_tips}}, \code{\link{ai_test}}
 #' @importFrom ape Ntip
 #' @export
 calculate_AI <- function(tree, trait) {
   internal_nodes <- unique(tree$edge[,1])
   AI_value <- 0
   for (node in internal_nodes) {
-    tips_descendants <- get_tips_descendants(tree, node)
+    tips_descendants <- get_descendant_tips(tree, node)
     if (length(tips_descendants) > 1) {
       leaf_traits <- trait[tips_descendants]
       if (length(leaf_traits) == 0) next
@@ -409,7 +409,7 @@ mc_test <- function(tree, trait, trait0, trait1, n_simu = 1000) {
 #' @references
 #' Salemi and al (2005). Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS.
 #'
-#' @seealso \code{\link{get_tips_descendants}}, \code{\link{mc_test}}
+#' @seealso \code{\link{get_descendant_tips}}, \code{\link{mc_test}}
 #' @export
 calculate_MC <- function(tree, trait, trait0, trait1) {
   internal_nodes <- unique(tree$edge[, 1])
@@ -422,7 +422,7 @@ calculate_MC <- function(tree, trait, trait0, trait1) {
     }
     max_clade_size <- 1
     for (node in internal_nodes) {
-      tips_descendants <- get_tips_descendants(tree, node)
+      tips_descendants <- get_descendant_tips(tree, node)
       leaf_traits <- trait[tips_descendants]
 
       if (length(unique(leaf_traits)) == 1 && unique(leaf_traits) == state) {
@@ -513,7 +513,7 @@ phylo.stats <- function(tree, trait, trait0, trait1, n_simu = 1000, alpha = 0.05
 #' @importFrom ape Ntip
 #' @importFrom phangorn Descendants
 #' @export
-get_tips_descendants <- function(tree, node) {
+get_descendant_tips <- function(tree, node) {
   descendants <- phangorn::Descendants(tree, node, "all")
   internal_descendants <- descendants[descendants <= ape::Ntip(tree)]
   return(internal_descendants)

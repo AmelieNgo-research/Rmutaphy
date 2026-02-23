@@ -382,13 +382,13 @@ get_tree_structure <- function(tree) {
 #'
 #' @examples
 #' \dontrun{
-#' sites <- get_site_candidates(nodes = 360, tree = tree_ids, sequences = seqs, threshold = 0.3)
+#' sites <- get_candidate_sites(nodes = 360, tree = tree_ids, sequences = seqs, threshold = 0.3)
 #' sites$candidates_by_node[["360"]]
 #' }
 #' @importFrom stats phyper na.omit setNames
 #' @import ape
 #' @export
-get_site_candidates <- function(nodes, tree, sequences, threshold = 0.3, verbose = FALSE) {
+get_candidate_sites <- function(nodes, tree, sequences, threshold = 0.3, verbose = FALSE) {
   vcat   <- function(...) { if (isTRUE(verbose)) cat(...) }
   vprint <- function(x)   { if (isTRUE(verbose)) print(x) }
   nodes <- unique(as.character(na.omit(nodes)))

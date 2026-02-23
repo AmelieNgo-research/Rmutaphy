@@ -9,7 +9,7 @@
 # For each simulated tree replicate i:
 #   - retrieve significant nodes detected by MutaPhy under H1
 #     (permutation-based, corrected p-values),
-#   - run get_site_candidates() on the branch(es) leading to these nodes using
+#   - run get_candidate_sites() on the branch(es) leading to these nodes using
 #     ancestral state reconstruction,
 #   - store the candidate sites by node.
 #
@@ -63,7 +63,7 @@ for (i in seq_along(tree_outputs)) {
   seqs_i <- results_tree_list[[i]][["simulation"]][["sequences"]]
 
   # Identify candidate mutations on branches leading to the detected node(s)
-  res <- get_site_candidates(
+  res <- get_candidate_sites(
     nodes     = nodes_corr,
     tree      = tree_i,
     sequences = seqs_i,
