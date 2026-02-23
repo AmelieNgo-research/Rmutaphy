@@ -13,11 +13,6 @@ Simulation frameworks implemented in this repository are used to evaluate the pe
 These simulated datasets are then analyzed using MutaPhy to detect viral clades enriched for the severe phenotype and to assess the method’s ability to recover the mutations underlying the observed associations.  
 Performance is evaluated across a range of evolutionary scenarios, including different tree sizes, noise levels, and proportions of causal mutations.
 
-## Application to dengue virus
-Folder: `analysis/Dengue_data`
-MutaPhy was applied to real genomic and clinical data from a dengue virus cohort, in which the phenotype corresponds to clinical severity observed in infected patients.  
-This application illustrates the ability of the method to detect localized phylogenetic clustering of severe cases and to explore candidate viral mutations potentially associated with disease severity.
-
 ## Usage (`mutaphy_test()`)
 
 MutaPhy expects a phylogenetic tree (`phylo`) whose tip labels encode a binary phenotype. The main entry point is:
@@ -61,11 +56,11 @@ res <- mutaphy_test(
 node <- res$positifs$permutation_nodes_corrected # 35
 ```
 
-## Candidate sites (`get_site_candidates()`)
+## Candidate sites (`get_candidate_sites()`)
 
-After running `mutaphy_test()`, candidate mutations can be explored on the branch leading to a significant clade using `get_site_candidates()`.
+After running `mutaphy_test()`, candidate mutations can be explored on the branch leading to a significant clade using `get_candidate_sites()`.
 
-- `get_site_candidates(nodes, tree, sequences, verbose)`
+- `get_candidate_sites(nodes, tree, sequences, verbose)`
 
 -- `nodes`: internal node ID corresponding to a significant subtree (typically taken from
   `res$positifs$permutation_nodes_corrected` or `res$positifs$permutation_nodes`)
@@ -77,7 +72,7 @@ After running `mutaphy_test()`, candidate mutations can be explored on the branc
 ### Example
 
 ```r
-get_tips_descendants <- function(tree, node) {
+get_descendant_tips <- function(tree, node) {
   descendants <- phangorn::Descendants(tree, node, "all")
   internal_descendants <- descendants[descendants <= ape::Ntip(tree)]
   return(internal_descendants)
@@ -88,7 +83,7 @@ L <- 10
 ref_seq <- sample(c("A","C","G","T"), L, replace = TRUE)
 sequences <- replicate(ape::Ntip(tree), ref_seq, simplify = FALSE)
 names(sequences) <- tree$tip.label
-desc_tips <- get_tips_descendants(tree, node)
+desc_tips <- get_descendant_tips(tree, node)
 mut_pos <- 4 # Introducing variation at site 4
 for (i in desc_tips) {
   sequences[[i]][mut_pos] <- "G"
@@ -96,7 +91,7 @@ for (i in desc_tips) {
 
 tree$tip.label <- paste0("seq_", id_leaf)
 
-sites <- get_site_candidates(
+sites <- get_candidate_sites(
   nodes     = node,
   tree      = tree,
   sequences = sequences,
