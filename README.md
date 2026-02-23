@@ -142,3 +142,9 @@ phylo_stat$MC$pvalues
 
 Amélie Ngo, Stéphane Guindon and Vincent Pedergnana (2026)
 
+Parsimony Score: Walter M. Fitch, Toward Defining the Course of Evolution: Minimum Change for a Specific Tree Topology, Systematic Biology, Volume 20, Issue 4, December 1971, Pages 406–416, https://doi.org/10.1093/sysbio/20.4.406
+
+Association Index: Wang TH, Donaldson YK, Brettle RP, Bell JE, Simmonds P. Identification of shared populations of human immunodeficiency virus type 1 infecting microglia and tissue macrophages outside the central nervous system. J Virol. 2001 Dec;75(23):11686-99. doi: 10.1128/JVI.75.23.11686-11699.2001. PMID: 11689650; PMCID: PMC114755.
+
+Monophyletic Clade: Salemi M, Lamers SL, Yu S, de Oliveira T, Fitch WM, McGrath MS. Phylodynamic analysis of human immunodeficiency virus type 1 in distinct brain compartments provides a model for the neuropathogenesis of AIDS. J Virol. 2005 Sep;79(17):11343-52. doi: 10.1128/JVI.79.17.11343-11352.2005. PMID: 16103186; PMCID: PMC1193641.
+
