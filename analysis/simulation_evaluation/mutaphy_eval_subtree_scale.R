@@ -6,9 +6,9 @@ library(PRROC); library(here); library(ggplot2)
 #### Subtree scale
 
 get_internal_descendants <- function(tree, node) {
-  descendants <- phangorn::Descendants(tree, node, "all")
-  internal_descendants <- descendants[descendants > Ntip(tree)] # nolint
-  return(internal_descendants)
+  desc <- phangorn::Descendants(tree, node, "all")
+  desc <- as.integer(unlist(desc))
+  desc[desc > ape::Ntip(tree)]
 }
 
 get_labels_and_pvals <- function(tree, true_positives, df_pvals,
@@ -17,22 +17,21 @@ get_labels_and_pvals <- function(tree, true_positives, df_pvals,
   detection <- match.arg(detection)
   pvalue_type <- match.arg(pvalue_type)
 
-  if (detection == "hierarchical") {
-    all_tp_nodes <- unique(c(
-      true_positives,
-      unlist(lapply(true_positives, function(x) get_internal_descendants(tree, x)))
-    ))
-  } else {
-    all_tp_nodes <- true_positives
-  }
-
   node_ids <- df_pvals$node
   pval <- df_pvals[[pvalue_type]]
+
+  tp <- unique(true_positives)
+  tp <- tp[tp %in% node_ids]
+
+  if (detection == "hierarchical") {
+    all_tp_nodes <- unique(c(tp, unlist(lapply(tp, function(x) get_internal_descendants(tree, x)))))
+  } else {
+    all_tp_nodes <- tp
+  }
+
   labels <- ifelse(node_ids %in% all_tp_nodes, 1, 0)
-
-  return(data.frame(node = node_ids, pvalue = pval, label = labels))
+  data.frame(node = node_ids, pvalue = pval, label = labels)
 }
-
 
 get_aucpr_h1 <- function(mtot_pct, n,
                          detection = c("strict", "hierarchical"),
@@ -301,16 +300,18 @@ df_combined <- df_combined %>%
   )
 
 
-
-
 for (pval_label in levels(df_combined$Pval_type)) {
-  df_plot <- df_combined %>% filter(Pval_type == pval_label)
+  df_plot <- df_combined %>%
+    filter(Pval_type == pval_label)
 
   p_spec <- df_plot %>% filter(H == "H0") %>%
     ggplot(aes(x = n, y = Value, color = Detection, linetype = Noise)) +
     geom_point(size = 3) +
     geom_line(size = 1) +
-    facet_wrap(~ Mtot, nrow = 1) +
+    facet_wrap(
+      ~ Mtot, nrow = 1,
+      labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
+    ) +
     theme_minimal(base_size = 15) +
     labs(
       title = bquote("(A) " ~ H[0]),
@@ -325,7 +326,10 @@ for (pval_label in levels(df_combined$Pval_type)) {
     ggplot(aes(x = n, y = Value, color = Detection, linetype = Noise)) +
     geom_point(size = 3) +
     geom_line(size = 1) +
-    facet_wrap(~ Mtot, nrow = 1) +
+    facet_wrap(
+      ~ Mtot, nrow = 1,
+      labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
+    ) +
     theme_minimal(base_size = 15) +
     labs(
       title = bquote("(B) " ~ H[1]),

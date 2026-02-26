@@ -80,28 +80,6 @@ df_aucpr_h1 <- df_aucpr_h1 %>%
                         "corr_pvalue" = "Permutation corrected p-value")
   )
 
-ggplot(df_aucpr_h1, aes(x = n, y = AUC_PR, color = Test_type, linetype = Noise,
-                        group = interaction(Test_type, Noise))) +
-  geom_point(size = 3) +
-  geom_line(size = 1) +
-  facet_wrap(~ Mtot, nrow = 1) +
-  theme_minimal(base_size = 15) +
-  labs(
-    title = bquote("AUC-PR under" ~ H[1]),
-    x = "Sample size (n)",
-    y = "AUC-PR",
-    color = "Test type",
-    linetype = "Noise"
-  ) +
-  scale_linetype_manual(values = c("No noise" = "solid", "Noise" = "dashed")) +
-  scale_color_manual(values = c("Hypergeometric" = "#009E73", "Permutation" = "#F53850")) +
-  ylim(0, 1.05) +
-  theme(
-    legend.position = "bottom",
-    strip.text = element_text(face = "bold", size = 12)
-  )
-
-
 
 get_specificity_h0_testtype <- function(mtot_pct, n,
                                         noise_type = c("no_background_noise", "two_sided_background_noise"),
@@ -179,28 +157,6 @@ df_spec_h0 <- df_spec_h0 %>%
                         "corr_pvalue" = "Permutation corrected p-value")
   )
 
-ggplot(df_spec_h0, aes(x = n, y = Specificity, color = Test_type, linetype = Noise,
-                       group = interaction(Test_type, Noise))) +
-  geom_point(size = 3) +
-  geom_line(size = 1) +
-  facet_wrap(~ Mtot, nrow = 1) +
-  theme_minimal(base_size = 15) +
-  labs(
-    title = bquote("Specificity under" ~ H[0]),
-    x = "Sample size (n)",
-    y = "Specificity (1 - FPR)",
-    color = "Test type",
-    linetype = "Noise"
-  ) +
-  scale_linetype_manual(values = c("No noise" = "solid", "Noise" = "dashed")) +
-  scale_color_manual(values = c("Hypergeometric" = "#009E73", "Permutation" = "#F53850")) +
-  coord_cartesian(ylim = c(0.97, 1)) +
-  theme(
-    legend.position = "bottom",
-    strip.text = element_text(face = "bold", size = 12)
-  )
-
-
 
 
 
@@ -212,7 +168,10 @@ p1 <- ggplot(df_spec_h0, aes(x = n, y = Specificity, color = Test_type, linetype
                              group = interaction(Test_type, Noise))) +
   geom_point(size = 3) +
   geom_line(size = 1) +
-  facet_wrap(~ Mtot, nrow = 1) +
+  facet_wrap(
+    ~ Mtot, nrow = 1,
+    labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
+  ) +
   theme_minimal(base_size = 15) +
   labs(
     title = bquote("(A) " ~ H[0]),
@@ -224,17 +183,20 @@ p1 <- ggplot(df_spec_h0, aes(x = n, y = Specificity, color = Test_type, linetype
   scale_linetype_manual(values = c("No noise" = "solid", "Noise" = "dashed")) +
   scale_color_manual(values = c("Hypergeometric" = "#009E73", "Permutation" = "#F53850")) +
   coord_cartesian(ylim = c(0.97, 1)) +
-  theme(
-    legend.position = "none",
-    strip.text = element_text(face = "bold", size = 12)
+  theme(legend.position = "none") +
+  guides(
+    color = "none",
+    linetype = "none"
   )
-
 
 p2 <- ggplot(df_aucpr_h1, aes(x = n, y = AUC_PR, color = Test_type, linetype = Noise,
                               group = interaction(Test_type, Noise))) +
   geom_point(size = 3) +
   geom_line(size = 1) +
-  facet_wrap(~ Mtot, nrow = 1) +
+  facet_wrap(
+    ~ Mtot, nrow = 1,
+    labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
+  ) +
   theme_minimal(base_size = 15) +
   labs(
     title = bquote("(B) " ~ H[1]),
@@ -248,7 +210,7 @@ p2 <- ggplot(df_aucpr_h1, aes(x = n, y = AUC_PR, color = Test_type, linetype = N
   ylim(0, 1.05) +
   theme(
     legend.position = "bottom",
-    strip.text = element_text(face = "bold", size = 12)
+    legend.key.width = unit(2, "cm")
   )
 
 

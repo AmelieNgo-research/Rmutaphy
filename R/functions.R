@@ -388,51 +388,106 @@ get_tree_structure <- function(tree) {
 #' @importFrom stats phyper na.omit setNames
 #' @import ape
 #' @export
-get_candidate_sites <- function(nodes, tree, sequences, threshold = 0.3, verbose = FALSE) {
+get_candidate_sites <- function(nodes, tree, sequences, threshold, verbose = FALSE) {
   vcat   <- function(...) { if (isTRUE(verbose)) cat(...) }
   vprint <- function(x)   { if (isTRUE(verbose)) print(x) }
+
   nodes <- unique(as.character(na.omit(nodes)))
   if (length(nodes) == 0) return(list(candidates_by_node = list()))
-  n_tips  <- ape::Ntip(tree)
-  n_nodes <- ape::Nnode(tree)
+
+  # --- ACE exige un arbre rooted + dichotomous dans ton cas ---
+  tree_ace <- ape::root(tree, outgroup = tree$tip.label[1], resolve.root = TRUE)
+  tree_ace <- ape::multi2di(tree_ace)
+
+  nodes_int <- as.integer(nodes)
+
+  nodes_mapped <- vapply(nodes_int, function(nd0) {
+    tips <- phangorn::Descendants(tree, nd0, type = "tips")[[1]]
+    tips_lab <- tree$tip.label[tips]
+
+    ape::getMRCA(tree_ace, tips_lab)
+  }, integer(1))
+
+  nodes <- unique(as.character(nodes_mapped))
+  nodes <- nodes[!is.na(nodes)]
+
+  n_tips  <- ape::Ntip(tree_ace)
+  n_nodes <- ape::Nnode(tree_ace)
   node_ids <- as.character((n_tips + 1):(n_tips + n_nodes))
+
   nodes <- intersect(nodes, node_ids)
   if (length(nodes) == 0) return(list(candidates_by_node = list()))
+
   parent_map <- setNames(rep(NA_character_, length(nodes)), nodes)
   for (nd in nodes) {
-    p <- phangorn::Ancestors(tree, as.integer(nd), type = "parent")
+    p <- phangorn::Ancestors(tree_ace, as.integer(nd), type = "parent")
     parent_map[nd] <- if (length(p)) as.character(p[1]) else NA_character_
   }
+
   genome_length <- length(sequences[[1]])
   candidates_by_node <- setNames(vector("list", length(nodes)), nodes)
+  type_by_node <- setNames(vector("list", length(nodes)), nodes)
+
+  sequences <- sequences[tree_ace$tip.label]
 
   for (site in seq_len(genome_length)) {
     vcat("\n==== Site", site, "====\n")
+
     site_states <- sapply(sequences, function(seq) seq[site])
     names(site_states) <- names(sequences)
-    if (length(unique(site_states)) <= 1) {
-      vcat("-> Non-variable site, skipped\n"); next
+
+    site_states[!site_states %in% c("A","C","G","T")] <- NA
+
+    vals <- na.omit(site_states)
+    if (length(unique(vals)) <= 1) {
+      vcat("-> Non-variable site (after NA), skipped\n")
+      next
     }
-    ace_res <- tryCatch(ape::ace(site_states, tree, type = "discrete", model = "ER"),
-                        error = function(e) NULL)
+
+    ace_res <- tryCatch(
+      ape::ace(site_states, tree_ace, type = "discrete", model = "ER"),
+      error = function(e) NULL
+    )
     if (is.null(ace_res)) { vcat("-> ACE failed\n"); next }
+
     lik_anc <- ace_res$lik.anc
-    rownames(lik_anc) <- node_ids
+
+    if (is.null(rownames(lik_anc)) || !all(node_ids %in% rownames(lik_anc))) {
+      rownames(lik_anc) <- node_ids
+    }
+
     for (nd in nodes) {
       parent_nd <- parent_map[[nd]]
       if (is.na(parent_nd)) next
+
       probs_best   <- lik_anc[nd, ]
       probs_parent <- lik_anc[parent_nd, ]
+
       nuc_best   <- names(which.max(probs_best))
       nuc_parent <- names(which.max(probs_parent))
+
       prob_best   <- probs_best[nuc_best]
       prob_parent <- probs_parent[nuc_parent]
-      detect <- (nuc_best != nuc_parent) || (abs(prob_best - prob_parent) >= threshold)
-      if (detect) {
+
+      is_state_change <- (nuc_best != nuc_parent)
+      is_ambiguous    <- (!is_state_change) &&
+        (abs(prob_best - prob_parent) >= threshold)
+
+      if (is_state_change || is_ambiguous) {
         candidates_by_node[[nd]] <- c(candidates_by_node[[nd]], site)
+        type_by_node[[nd]] <- c(
+          type_by_node[[nd]],
+          ifelse(is_state_change, "state_change", "ambiguous")
+        )
       }
     }
   }
-  candidates_by_node <- lapply(candidates_by_node, function(v) if (length(v)) sort(unique(v)) else integer(0))
-  list(candidates_by_node = candidates_by_node)
+
+  candidates_by_node <- lapply(candidates_by_node, function(v)
+    if (length(v)) sort(unique(v)) else integer(0)
+  )
+  type_by_node <- lapply(type_by_node, function(v) if (length(v)) v else character(0))
+
+  list(candidates_by_node = candidates_by_node,
+       type_by_node = type_by_node)
 }
