@@ -80,6 +80,7 @@ get_descendant_tips <- function(tree, node) {
 
 # Building of sequences
 L <- 10
+set.seed(1)
 ref_seq <- sample(c("A","C","G","T"), L, replace = TRUE)
 sequences <- replicate(ape::Ntip(tree), ref_seq, simplify = FALSE)
 names(sequences) <- tree$tip.label
@@ -95,6 +96,7 @@ sites <- get_candidate_sites(
   nodes     = node,
   tree      = tree,
   sequences = sequences,
+  threshold = 0.3,
   verbose   = TRUE
 )
 sites$candidates_by_node # Node 35, detected mutation at site 4
