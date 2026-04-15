@@ -4,6 +4,8 @@ This repository contains the R implementation of **MutaPhy**, a method for detec
 
 MutaPhy is designed to study genotype–phenotype associations in a phylogenetic framework. The method detects clades significantly enriched for a binary phenotype and identifies candidate mutations that may underlie this association using permutation-based statistical tests and ancestral sequence reconstruction.
 
+Importantly, MutaPhy can be used to guide downstream association analyses by restricting the search space to a subset of candidate mutations supported by the phylogeny. This reduces the multiple testing and helps limit false positive findings when applying classical association tests.
+
 ## Simulations
 Folder: `analysis/`
 Functions: `analysis/simulation/evaluation/functions.R`
