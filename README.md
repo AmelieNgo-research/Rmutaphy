@@ -6,6 +6,8 @@ MutaPhy is designed to study genotype–phenotype associations in a phylogenetic
 
 Importantly, MutaPhy can be used to guide downstream association analyses by restricting the search space to a subset of candidate mutations supported by the phylogeny. This reduces the multiple testing and helps limit false positive findings when applying classical association tests.
 
+All results and figures can be reproduced by loading the file \texttt{analysis/environment.RData} and running the analysis scripts whose names start with \texttt{mutaphy\_} in the \texttt{analysis/} directory.
+
 ## Simulations
 Folder: `analysis/`
 Functions: `analysis/simulation/evaluation/functions.R`
