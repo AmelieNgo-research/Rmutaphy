@@ -1370,12 +1370,13 @@ roc_plot <- ggroc(roc_list, size = 1.2) +
   theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-    axis.title.x = element_text(size = 13, face = "bold"),
-    axis.title.y = element_text(size = 13, face = "bold"),
-    axis.text = element_text(size = 11),
-    legend.position = c(0.65, 0.25),
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
+    axis.title.x = element_text(size = 18, face = "bold"),
+    axis.title.y = element_text(size = 18, face = "bold"),
+    axis.text = element_text(size = 18),
+    legend.position = c(0.8, 0.3),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 13),
+    legend.key.size = unit(1.2, "cm"),
     panel.grid.major = element_line(color = "grey90"),
     panel.grid.minor = element_blank()
   ) +
@@ -2741,12 +2742,13 @@ roc_plot_noise <- ggroc(roc_list_noise, size = 1.2) +
   theme_minimal(base_size = 14) +
   theme(
     plot.title = element_text(size = 14, hjust = 0.5, face = "bold"),
-    axis.title.x = element_text(size = 13, face = "bold"),
-    axis.title.y = element_text(size = 13, face = "bold"),
-    axis.text = element_text(size = 11),
-    legend.position = c(0.65, 0.25),
-    legend.title = element_text(size = 11),
-    legend.text = element_text(size = 10),
+    axis.title.x = element_text(size = 18, face = "bold"),
+    axis.title.y = element_text(size = 18, face = "bold"),
+    axis.text = element_text(size = 18),
+    legend.position = c(0.8, 0.3),
+    legend.title = element_text(size = 14, face = "bold"),
+    legend.text = element_text(size = 13),
+    legend.key.size = unit(1.2, "cm"),
     panel.grid.major = element_line(color = "grey90"),
     panel.grid.minor = element_blank()
   ) +

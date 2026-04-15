@@ -300,14 +300,17 @@ df_combined <- df_combined %>%
   )
 
 
+subtrees_MutaPhy_corr_pval <- list()
+
 for (pval_label in levels(df_combined$Pval_type)) {
   df_plot <- df_combined %>%
     filter(Pval_type == pval_label)
 
-  p_spec <- df_plot %>% filter(H == "H0") %>%
+  p_spec <- df_plot %>%
+    filter(H == "H0") %>%
     ggplot(aes(x = n, y = Value, color = Detection, linetype = Noise)) +
     geom_point(size = 3) +
-    geom_line(size = 1) +
+    geom_line(linewidth = 1) +
     facet_wrap(
       ~ Mtot, nrow = 1,
       labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
@@ -322,10 +325,11 @@ for (pval_label in levels(df_combined$Pval_type)) {
     coord_cartesian(ylim = c(0.97, 1)) +
     theme(legend.position = "none")
 
-  p_aucpr <- df_plot %>% filter(H == "H1") %>%
+  p_aucpr <- df_plot %>%
+    filter(H == "H1") %>%
     ggplot(aes(x = n, y = Value, color = Detection, linetype = Noise)) +
     geom_point(size = 3) +
-    geom_line(size = 1) +
+    geom_line(linewidth = 1) +
     facet_wrap(
       ~ Mtot, nrow = 1,
       labeller = labeller(Mtot = function(x) paste0("Mtot = ", x))
@@ -351,6 +355,10 @@ for (pval_label in levels(df_combined$Pval_type)) {
       linetype = guide_legend(override.aes = list(size = 2))
     )
 
-  combined_plot <- p_spec / p_aucpr + plot_annotation(title = paste("Results using", pval_label))
-  print(combined_plot)
+  combined_plot <- p_spec / p_aucpr +
+    plot_annotation(title = paste("Results using", pval_label))
+
+  subtrees_MutaPhy_corr_pval[[as.character(pval_label)]] <- combined_plot
 }
+
+subtrees_MutaPhy_corr_pval

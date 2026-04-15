@@ -67,3 +67,36 @@ ggplot(data, aes(x = m, y = probability, color = Mtot, linetype = noise)) +
   ) +
   theme_minimal(base_size = 14) +
   theme(legend.position = "bottom")
+
+ggplot(subset(data, noise == "no"), aes(x = m, y = probability, color = Mtot)) +
+  geom_line(size = 1.2) +
+  labs(
+    x = "Number of causal mutations (m)",
+    y = "P(severe | m)",
+    color = "Mtot",
+    title = "No noise"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(size = 18),
+    axis.text = element_text(size = 14),
+    plot.title = element_text(size = 20, face = "bold", hjust = 0.5)
+  )
+
+ggplot(subset(data, noise == "yes"), aes(x = m, y = probability, color = Mtot)) +
+  geom_line(size = 1.2) +
+  labs(
+    x = "Number of causal mutations (m)",
+    y = "P(severe | m)",
+    color = "Mtot",
+    title = "With noise"
+  ) +
+  coord_cartesian(ylim = c(0, 1)) +
+  theme_minimal(base_size = 14) +
+  theme(
+    legend.position = "bottom",
+    axis.title = element_text(size = 18),
+    axis.text = element_text(size = 14),
+    plot.title = element_text(size = 20, face = "bold", hjust = 0.5)
+  )

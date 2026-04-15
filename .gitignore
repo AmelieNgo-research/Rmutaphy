@@ -4,3 +4,5 @@
 .Ruserdata
 analysis/Dengue_data/
 analysis/EBV_data/
+analysis/HCV_data/
+analysis/application_environment.RData
